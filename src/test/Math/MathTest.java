@@ -21,7 +21,7 @@ public class MathTest {
         (new File(root)).mkdirs();
         
         File path = new File(root + "/Insight.math");
-        FileUtils.write(path, "things are getting SUbtracted!");
+        FileUtils.write(path, "things are getting SUbtracted!!!!");
 
         //what I would think it would be:
         System.out.println();
