@@ -3,6 +3,10 @@
  */
 package stuff;
 
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 ////import org.apache.tapestry5.ioc.annotations.Inject;
 ////import org.apache.tapestry5.ioc.services.SymbolSource;
 //import org.junit.Rule;
@@ -19,20 +23,20 @@ package stuff;
  * @author markl
  *
  */
-public class IntegrationTest {// extends TapestryIoCTestCase {//extends BaseTest {
+public class IntegrationTest extends BaseTest {
 
-////    /**
-////    * A logger... so if you use System.out, or System.err... you will be shot!
-////    */
-////    private static transient final Logger logger = LoggerFactory.getLogger(IntegrationTest.class);
-//
-////    @Inject protected SymbolSource symbolSource;
-//
-//    protected WebDriver driver;
-//
-//    protected WebDriverWait waiter;
-//
-//    protected String baseDomain;
+//    /**
+//    * A logger... so if you use System.out, or System.err... you will be shot!
+//    */
+//    private static transient final Logger logger = LoggerFactory.getLogger(IntegrationTest.class);
+
+//    @Inject protected SymbolSource symbolSource;
+
+    protected WebDriver driver;
+
+    protected WebDriverWait waiter;
+
+    protected String baseDomain;
 //
 //    public IntegrationTest(final WebDriver w) {
 //        driver = w;
@@ -55,4 +59,9 @@ public class IntegrationTest {// extends TapestryIoCTestCase {//extends BaseTest
 //        }
 //        return null;
 //    }
+    
+    @Test
+    public void passes() {
+		
+	}
 }
