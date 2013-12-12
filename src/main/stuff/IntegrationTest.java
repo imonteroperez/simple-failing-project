@@ -3,7 +3,10 @@
  */
 package stuff;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -37,31 +40,26 @@ public class IntegrationTest extends BaseTest {
     protected WebDriverWait waiter;
 
     protected String baseDomain;
-//
-//    public IntegrationTest(final WebDriver w) {
-//        driver = w;
-//        waiter = (new WebDriverWait(driver, 10));
-//
-//        baseDomain = "http://" + "dg-test"; //symbolSource.valueForSymbol("app.baseDomain"); //TODO: support for https? //TODO: how is the "app.baseDomain" symbol supported across projects?
-//    }
-//
-//    @Rule public RecordArtifactRule watchman = new RecordArtifactRule(this);
-//
-//    @CaptureFile(extention = "html")
-//    public String captureHtml() {
-//        return driver.getPageSource();
-//    }
-//
-//    @CaptureFile(extention = "png")
-//    public byte[] capturePage() {
-//        if (driver instanceof TakesScreenshot) {
-//            return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-//        }
-//        return null;
-//    }
-    
-    @Test
-    public void passes() {
-		
-	}
+
+    public IntegrationTest(final WebDriver w) {
+        driver = w;
+        waiter = (new WebDriverWait(driver, 10));
+
+        baseDomain = "https://www.google.com/";
+    }
+
+
+    @CaptureFile(extention = "html")
+    public String captureHtml() {
+        return driver.getPageSource();
+    }
+
+    @CaptureFile(extention = "png")
+    public byte[] capturePage() {
+        if (driver instanceof TakesScreenshot) {
+            return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        }
+        return null;
+    }
+
 }
