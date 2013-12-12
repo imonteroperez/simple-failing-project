@@ -1,7 +1,7 @@
 /**
  * @author markl
  */
-package TODOmove;
+package stuff;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

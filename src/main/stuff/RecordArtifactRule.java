@@ -1,7 +1,7 @@
 /**
  * @author markl
  */
-package TODOmove;
+package stuff;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,15 +1,11 @@
 /**
  * @author markl
  */
-package TODOmove;
+package stuff;
 
 import org.junit.Rule;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatchman;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+
+import stuff.RecordArtifactRule;
 
 //import com.ifactory.arachne.core.test.TapestryIoCTestCase;
 

@@ -1,7 +1,7 @@
 /**
  * @author markl
  */
-package TODOmove;
+package stuff;
 
 //import org.apache.tapestry5.ioc.annotations.Inject;
 //import org.apache.tapestry5.ioc.services.SymbolSource;

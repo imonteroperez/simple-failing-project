@@ -1,7 +1,7 @@
 /**
  * @author markl
  */
-package TODOmove;
+package stuff;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
