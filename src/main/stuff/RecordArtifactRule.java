@@ -122,7 +122,7 @@ public class RecordArtifactRule extends TestWatcher {
 
         //TODO: system var for maven target?
         (new File(relpath)).mkdirs();//+ System.getProperty("user.dir");
-        String root = relpath + testObject.getClass().getName() + "/" + description.getMethodName();
+        String root = relpath + testObject.getClass().getName();// + "." + description.getMethodName();
         (new File(root)).mkdirs();
         //TODO: new file error checks and stuff
         
@@ -133,7 +133,7 @@ public class RecordArtifactRule extends TestWatcher {
 
             for (Entry<String, byte[]> p : fileOut.entrySet()) {
                 try {
-                    File path = new File(root + "/" + p.getKey());
+                    File path = new File(root + "/" + pre+p.getKey());
                     FileUtils.writeByteArrayToFile(path, p.getValue());
 
                     System.out.println();
@@ -153,7 +153,7 @@ public class RecordArtifactRule extends TestWatcher {
 
             for (Entry<String, String> p : textfileOut.entrySet()) {
                 try {
-                    File path = new File(root + "/" + p.getKey());
+                    File path = new File(root + "/" + pre+p.getKey());
                     FileUtils.writeStringToFile(path, p.getValue());
 
                     System.out.println();
