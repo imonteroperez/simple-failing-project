@@ -45,7 +45,7 @@ public class IntegrationTest extends BaseTest {
         driver = w;
         waiter = (new WebDriverWait(driver, 10));
 
-        baseDomain = "https://www.google.com/";
+        baseDomain = "http://www.google.com/";
     }
 
 

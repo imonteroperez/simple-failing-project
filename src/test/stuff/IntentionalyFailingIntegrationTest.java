@@ -46,7 +46,7 @@ public class IntentionalyFailingIntegrationTest extends IntegrationTest {
 
     @Test
     public void failsinBrowser() {
-        driver.get(baseDomain + "/view/product/41580");
+        driver.get(baseDomain);
         impotantDubugInformation = "dg is 'fun'";
 
         HtmlUnitWebElement elem = (HtmlUnitWebElement) waiter.withMessage("regression for #3272").until(
