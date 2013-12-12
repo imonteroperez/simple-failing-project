@@ -135,7 +135,7 @@ public class RecordArtifactRule extends TestWatcher {
 
                     System.out.println();
                     //                                        System.out.println("[[ATTACHMENT|" + path.getAbsolutePath() + "]]"); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-                    System.out.println("[exec] [[ATTACHMENT|" + path + "]]"); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
+                    System.out.println("[[ATTACHMENT|" + path + "]]"); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
                     System.out.println();
 
                     System.out.println("record: " + path.getAbsolutePath()); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
@@ -155,7 +155,7 @@ public class RecordArtifactRule extends TestWatcher {
 
                     System.out.println();
                     //                                        System.out.println("[[ATTACHMENT|" + path.getAbsolutePath() + "]]"); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-                    System.out.println("[exec] [[ATTACHMENT|" + path + "]]"); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
+                    System.out.println("[[ATTACHMENT|" + path + "]]"); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
                     System.out.println();
 
                     System.out.println("record: " + path.getAbsolutePath()); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
