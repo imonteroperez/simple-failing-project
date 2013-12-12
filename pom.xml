@@ -36,7 +36,6 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>${seleniumVersion}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
