@@ -68,8 +68,10 @@ public class IntentionalyFailingIntegrationTest extends IntegrationTest {
     	driver.close();
 	}
 	
+	
+	//TODO: don't record things that are set to null
 	@Test
-	public void fail() {
-    	fail();
+	public void failll() {
+    	fail("nope");
 	}
 }

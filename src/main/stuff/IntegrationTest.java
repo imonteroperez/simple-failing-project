@@ -3,6 +3,7 @@
  */
 package stuff;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.OutputType;
@@ -50,7 +51,11 @@ public class IntegrationTest extends BaseTest {
 
 
     @CaptureFile(extention = "html")
-    public String captureHtml() {
+    public String captureDomHtml() {
+    	String source= driver.getPageSource();
+    	if(StringUtils.isBlank(source)){
+    		return null;
+    	}
         return driver.getPageSource();
     }
 
