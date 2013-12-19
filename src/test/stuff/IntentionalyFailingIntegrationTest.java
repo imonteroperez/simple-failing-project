@@ -9,6 +9,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElemen
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitWebElement;
 
@@ -57,4 +58,18 @@ public class IntentionalyFailingIntegrationTest extends IntegrationTest {
     @Test
     public void succeeds() {
     }
+    
+
+	@Test
+	public void helloGoogle() {
+    	FirefoxDriver driver =new FirefoxDriver();
+    	driver.get("http://www.google.com/");
+
+    	driver.close();
+	}
+	
+	@Test
+	public void fail() {
+    	fail();
+	}
 }
