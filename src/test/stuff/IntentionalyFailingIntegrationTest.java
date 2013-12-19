@@ -63,7 +63,8 @@ public class IntentionalyFailingIntegrationTest extends IntegrationTest {
 
 	@Test
 	public void helloGoogle() {
-		System.setProperty("webdriver.firefox.bin","/usr/lib/firefox-3.6/firefox");
+		
+		System.setProperty("webdriver.firefox.bin","/usr/bin/firefox");
 		
     	FirefoxDriver driver =new FirefoxDriver();
     	driver.get("http://www.google.com/");
