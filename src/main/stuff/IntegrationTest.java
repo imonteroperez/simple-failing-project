@@ -3,7 +3,7 @@
  */
 package stuff;
 
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.StringUtils;
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,9 +55,9 @@ public class IntegrationTest extends BaseTest {
     public String domHtml() {
     	
     	String source= driver.getPageSource();
-    	if(StringUtils.isBlank(source)){
-    		return null;
-    	}
+//    	if(StringUtils.isBlank(source)){
+//    		return null;
+//    	}
         return driver.getPageSource();
     }
 

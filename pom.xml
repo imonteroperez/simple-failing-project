@@ -5,7 +5,7 @@
 	<artifactId>simple-failing-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-		<seleniumVersion>2.38.0</seleniumVersion>
+		<seleniumVersion>2.25.0</seleniumVersion>
 	</properties>
 	<build>
 		<sourceDirectory>src/main</sourceDirectory>
