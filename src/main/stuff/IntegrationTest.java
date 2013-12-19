@@ -4,6 +4,7 @@
 package stuff;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.OutputType;
@@ -51,7 +52,8 @@ public class IntegrationTest extends BaseTest {
 
 
     @CaptureFile(extention = "html")
-    public String captureDomHtml() {
+    public String domHtml() {
+    	
     	String source= driver.getPageSource();
     	if(StringUtils.isBlank(source)){
     		return null;
@@ -60,11 +62,17 @@ public class IntegrationTest extends BaseTest {
     }
 
     @CaptureFile(extention = "png")
-    public byte[] capturePage() {
+    public byte[] page() {
         if (driver instanceof TakesScreenshot) {
             return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
         }
         return null;
     }
 
+    @AfterClass
+    public void affterClass() {
+		if(driver!=null){
+			driver.close();
+		}
+	}
 }
