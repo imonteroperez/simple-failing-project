@@ -5,9 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-public class openUpFireFoxAtAll extends IntegrationTest {
+public class OpenUpFireFoxAtAll extends IntegrationTest {
 	
-    public openUpFireFoxAtAll() {
+    public OpenUpFireFoxAtAll() {
 		super(new HtmlUnitDriver(false));
 		// TODO Auto-generated constructor stub
 	}
@@ -18,5 +18,10 @@ public class openUpFireFoxAtAll extends IntegrationTest {
     	driver.get("http://www.google.com/");
 
     	driver.close();
+	}
+	
+	@Test
+	public void fail() {
+    	fail();
 	}
 }
