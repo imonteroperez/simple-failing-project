@@ -69,10 +69,11 @@ public class IntegrationTest extends BaseTest {
         return null;
     }
 
-    @AfterClass
-    public void affterClass() {
-		if(driver!=null){
-			driver.close();
-		}
-	}
+    //TODO: error if not static
+//    @AfterClass
+//    public void affterClass() {
+//		if(driver!=null){
+//			driver.close();
+//		}
+//	}
 }
