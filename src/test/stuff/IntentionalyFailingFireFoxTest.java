@@ -16,7 +16,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitWebElement;
  * @author markl
  *
  */
-//@Ignore("Ignored for obvious reasons")
+@Ignore("Ignored for obvious reasons")
 public class IntentionalyFailingFireFoxTest extends IntegrationTest {
 
     /**
