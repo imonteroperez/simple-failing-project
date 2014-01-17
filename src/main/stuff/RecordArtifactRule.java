@@ -81,7 +81,6 @@ public class RecordArtifactRule extends TestWatcher {
 					System.out.println("unable serialize '" + fileKey + "':" + e1);
 				}
 			}
-
 		}
 
 		for (Field f : description.getTestClass().getFields()) {
@@ -99,9 +98,7 @@ public class RecordArtifactRule extends TestWatcher {
 				} catch (IllegalAccessException e1) {
 					System.out.println("unable serialize '" + fileKey + "':" + e1);
 				}
-
 			}
-
 		}
 
 		// TODO: first clean this directory
@@ -122,57 +119,15 @@ public class RecordArtifactRule extends TestWatcher {
 		if (fileOut.size() > 0) {
 
 			for (Entry<String, byte[]> p : fileOut.entrySet()) {
-				try {
-					File path = new File(root + "/" + pre + p.getKey());
-					FileUtils.writeByteArrayToFile(path, p.getValue());
-
-					System.out.println();
-					// System.out.println("[[ATTACHMENT|" +
-					// path.getAbsolutePath() + "]]"); //according to
-					// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-					System.out.println("[[ATTACHMENT|" + path + "]]"); // according
-																		// to
-																		// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-					System.out.println();
-
-					System.out.println("record: " + path.getAbsolutePath()); // according
-																				// to
-																				// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-					System.out.println();
-				} catch (IOException e1) {
-					// logger.error(e1.getMessage(), e1); // TODO Auto-generated
-					// catch block
-				}
+				String fullRelativePath = root + "/" + pre + p.getKey();
+				byte[] value = p.getValue();
+				File path = new File(fullRelativePath);
+				
+				RecordArtifact.record(path, value);
+				
 			}
 		}
 
-		// if (textfileOut.size() > 0) {
-		//
-		// for (Entry<String, String> p : textfileOut.entrySet()) {
-		// try {
-		// File path = new File(root + "/" + pre+p.getKey());
-		// FileUtils.writeStringToFile(path, p.getValue());
-		//
-		// System.out.println();
-		// // System.out.println("[[ATTACHMENT|" + path.getAbsolutePath() +
-		// "]]"); //according to
-		// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-		// System.out.println("[[ATTACHMENT|" + path + "]]"); //according to
-		// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-		// System.out.println();
-		//
-		// System.out.println("record: " + path.getAbsolutePath()); //according
-		// to
-		// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-		// System.out.println();
-		// } catch (IOException e1) {
-		// // logger.error(e1.getMessage(), e1); // TODO Auto-generated catch
-		// block
-		// }
-		// }
-		// }
-
-		// description.getTestClass().getDeclaringClass();
 	}
 
 	// TODO: handle Content
