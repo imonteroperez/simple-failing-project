@@ -55,22 +55,20 @@ public class IntentionalyFailingIntegrationTest extends IntegrationTest {
                 presenceOfElementLocated(By.partialLinkText("Title Thingy")));
     }
 
+    
+    @Test
+    public void failsinyahoo() {
+        driver.get("http://www.yahoo.com/");
+        impotantDubugInformation = "yahoo!";
+
+        HtmlUnitWebElement elem = (HtmlUnitWebElement) waiter.withMessage("regression for #3272").until(
+                presenceOfElementLocated(By.partialLinkText("Title Thingy")));
+    }
+    
 
     @Test
     public void succeeds() {
     }
-    
-
-	@Test
-	public void helloGoogle() {
-		
-//		System.setProperty("webdriver.firefox.bin","/usr/bin/firefox");
-		
-    	FirefoxDriver driver =new FirefoxDriver();
-    	driver.get("http://www.google.com/");
-
-    	driver.close();
-	}
 	
 	
 	//TODO: don't record things that are set to null
