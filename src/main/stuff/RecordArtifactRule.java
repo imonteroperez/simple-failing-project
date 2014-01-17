@@ -15,162 +15,185 @@ import java.util.Map.Entry;
 import org.apache.commons.io.FileUtils;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+
 
 /**
  * @author markl
- *
+ * 
  */
 public class RecordArtifactRule extends TestWatcher {
 
-    //TOOD: use with https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
+	// TOOD: use with
+	// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
 
-    //TODO: check that everything in the class that uses the CaptureFile annotation is set to public, fail the test otherwise.
+	// TODO: check that everything in the class that uses the CaptureFile
+	// annotation is set to public, fail the test otherwise.
 
-//    /**
-//    * A logger... so if you use System.out, or System.err... you will be shot!
-//    */
-//    private static transient final Logger logger = LoggerFactory.getLogger(RecordArtifactRule.class);
+	// /**
+	// * A logger... so if you use System.out, or System.err... you will be
+	// shot!
+	// */
+	// private static transient final Logger logger =
+	// LoggerFactory.getLogger(RecordArtifactRule.class);
 
-    Object testObject;
+	private final Object testObject;
 
-    /**
+	/**
      *
      */
-    public RecordArtifactRule(final Object testObject) {
-        super();
-        this.testObject = testObject;
-    }
+	public RecordArtifactRule(final Object testObject) {
+		super();
+		this.testObject = testObject;
+	}
 
-    @Override
-    protected void starting(final Description description) {
-        //description.
-        description.getTestClass().getMethods();
-    }
+	@Override
+	protected void starting(final Description description) {
+		// description.
+		description.getTestClass().getMethods();
+	}
+	
+	@Override
+	protected void failed(final Throwable e, final Description description) {
 
-    @Override
-    protected void failed(final Throwable e, final Description description) {
+		Map<String, byte[]> fileOut = new HashMap<String, byte[]>();
+		// TODO: null checks and such
+		// TODO: tostring the objects, and such
 
-        Map<String, byte[]> fileOut = new HashMap<String, byte[]>();
-        Map<String, String> textfileOut = new HashMap<String, String>();//TODO: possible name overlapping: shareed keys
-        //TODO: null checks and such
-        //TODO: tostring the objects, and such
+		for (Method m : description.getTestClass().getMethods()) {
 
-        for (Method m : description.getTestClass().getMethods()) {
+			// System.out.println(m.getName());
+			CaptureFile cf = m.getAnnotation(CaptureFile.class);
+			if (cf != null) {
 
-            //System.out.println(m.getName());
-            CaptureFile cf = m.getAnnotation(CaptureFile.class);
-            if (cf != null) {
-                //                cf.extention();
-                try {
+				String fileKey = m.getName() + "." + cf.extention();
+				
+				try {
 
-                    if (String.class.equals(m.getReturnType())) {
-                        String str = (String) m.invoke(testObject);
-                        if (str != null) {
-                            textfileOut.put(m.getName() + "." + cf.extention(), str);
-                        }
-                    } else {
-                        byte[] byt = (byte[]) m.invoke(testObject);
-                        if (byt != null) {
-                            fileOut.put(m.getName() + "." + cf.extention(), byt);
-                        }
-                    }
-                    //                    }else{
-                    //                        //TODO:???
-                    //                    }
+					Object methodOutput = m.invoke(testObject);
 
-                } catch (IllegalAccessException e1) {
-//                    logger.error(e1.getMessage(), e1); // TODO Auto-generated catch block
-                } catch (IllegalArgumentException e1) {
-//                    logger.error(e1.getMessage(), e1); // TODO Auto-generated catch block
-                } catch (InvocationTargetException e1) {
-//                    logger.error(e1.getMessage(), e1); // TODO Auto-generated catch block
-                }
-            }
+					insertObject(fileOut, fileKey, m.getReturnType(),methodOutput);
 
-        }
+				} catch (IllegalAccessException e1) {
+					System.out.println("unable serialize '" + fileKey + "':" + e1);
+				} catch (IllegalArgumentException e1) {
+					System.out.println("unable serialize '" + fileKey + "':" + e1);
+				} catch (InvocationTargetException e1) {
+					System.out.println("unable serialize '" + fileKey + "':" + e1);
+				}
+			}
 
-        for (Field f : description.getTestClass().getFields()) {
+		}
 
-            //System.out.println(m.getName());
-            CaptureFile cf = f.getAnnotation(CaptureFile.class);
-            if (cf != null) {
+		for (Field f : description.getTestClass().getFields()) {
 
-                try {
-                    if (String.class.equals(f.getType())) {
+			CaptureFile cf = f.getAnnotation(CaptureFile.class);
+			if (cf != null) {
 
-                        textfileOut.put(f.getName() + "." + cf.extention(), (String) f.get(testObject));//TODO: string
-                    } else {
-                        fileOut.put(f.getName() + "." + cf.extention(), (byte[]) f.get(testObject));
-                    }
+				String fileKey = f.getName() + "." + cf.extention();
+				try {
+					
+					insertObject(fileOut, fileKey, f.getType(),f.get(testObject));
 
-                } catch (IllegalArgumentException e1) {
-//                    logger.error(e1.getMessage(), e1); // TODO Auto-generated catch block
-                } catch (IllegalAccessException e1) {
-//                    logger.error(e1.getMessage(), e1); // TODO Auto-generated catch block
-                }
+				} catch (IllegalArgumentException e1) {
+					System.out.println("unable serialize '" + fileKey + "':" + e1);
+				} catch (IllegalAccessException e1) {
+					System.out.println("unable serialize '" + fileKey + "':" + e1);
+				}
 
-            }
+			}
 
-        }
+		}
 
-        //TODO: first clean this directory
+		// TODO: first clean this directory
 
-        //        String relpath = "target/surefire-reports/";
-        String relpath = "target/testArtifacts/";
+		// String relpath = "target/surefire-reports/";
+		String relpath = "target/testArtifacts/";
 
-        //TODO: system var for maven target?
-        (new File(relpath)).mkdirs();//+ System.getProperty("user.dir");
-        String root = relpath + testObject.getClass().getName();// + "." + description.getMethodName();
-        (new File(root)).mkdirs();
-        //TODO: new file error checks and stuff
-        
-        //becuase the plugin is class based not test based
-        String pre = description.getMethodName()+".";
+		// TODO: system var for maven target?
+		(new File(relpath)).mkdirs();// + System.getProperty("user.dir");
+		String root = relpath + testObject.getClass().getName();// + "." +
+																// description.getMethodName();
+		(new File(root)).mkdirs();
+		// TODO: new file error checks and stuff
 
-        if (fileOut.size() > 0) {
+		// becuase the plugin is class based not test based
+		String pre = description.getMethodName() + ".";
 
-            for (Entry<String, byte[]> p : fileOut.entrySet()) {
-                try {
-                    File path = new File(root + "/" + pre+p.getKey());
-                    FileUtils.writeByteArrayToFile(path, p.getValue());
+		if (fileOut.size() > 0) {
 
-                    System.out.println();
-                    //                                        System.out.println("[[ATTACHMENT|" + path.getAbsolutePath() + "]]"); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-                    System.out.println("[[ATTACHMENT|" + path + "]]"); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-                    System.out.println();
+			for (Entry<String, byte[]> p : fileOut.entrySet()) {
+				try {
+					File path = new File(root + "/" + pre + p.getKey());
+					FileUtils.writeByteArrayToFile(path, p.getValue());
 
-                    System.out.println("record: " + path.getAbsolutePath()); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-                    System.out.println();
-                } catch (IOException e1) {
-//                    logger.error(e1.getMessage(), e1); // TODO Auto-generated catch block
-                }
-            }
-        }
+					System.out.println();
+					// System.out.println("[[ATTACHMENT|" +
+					// path.getAbsolutePath() + "]]"); //according to
+					// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
+					System.out.println("[[ATTACHMENT|" + path + "]]"); // according
+																		// to
+																		// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
+					System.out.println();
 
-        if (textfileOut.size() > 0) {
+					System.out.println("record: " + path.getAbsolutePath()); // according
+																				// to
+																				// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
+					System.out.println();
+				} catch (IOException e1) {
+					// logger.error(e1.getMessage(), e1); // TODO Auto-generated
+					// catch block
+				}
+			}
+		}
 
-            for (Entry<String, String> p : textfileOut.entrySet()) {
-                try {
-                    File path = new File(root + "/" + pre+p.getKey());
-                    FileUtils.writeStringToFile(path, p.getValue());
+		// if (textfileOut.size() > 0) {
+		//
+		// for (Entry<String, String> p : textfileOut.entrySet()) {
+		// try {
+		// File path = new File(root + "/" + pre+p.getKey());
+		// FileUtils.writeStringToFile(path, p.getValue());
+		//
+		// System.out.println();
+		// // System.out.println("[[ATTACHMENT|" + path.getAbsolutePath() +
+		// "]]"); //according to
+		// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
+		// System.out.println("[[ATTACHMENT|" + path + "]]"); //according to
+		// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
+		// System.out.println();
+		//
+		// System.out.println("record: " + path.getAbsolutePath()); //according
+		// to
+		// https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
+		// System.out.println();
+		// } catch (IOException e1) {
+		// // logger.error(e1.getMessage(), e1); // TODO Auto-generated catch
+		// block
+		// }
+		// }
+		// }
 
-                    System.out.println();
-                    //                                        System.out.println("[[ATTACHMENT|" + path.getAbsolutePath() + "]]"); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-                    System.out.println("[[ATTACHMENT|" + path + "]]"); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-                    System.out.println();
+		// description.getTestClass().getDeclaringClass();
+	}
 
-                    System.out.println("record: " + path.getAbsolutePath()); //according to https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin
-                    System.out.println();
-                } catch (IOException e1) {
-//                    logger.error(e1.getMessage(), e1); // TODO Auto-generated catch block
-                }
-            }
-        }
+	// TODO: handle Content
+	
+	private void insertObject(Map<String, byte[]> fileOut, String key, Class<?> type, Object o){
+		
+		if (o == null) {
+			System.out.println("unable serialize '" + o + "': it was null");
 
-        //description.getTestClass().getDeclaringClass();
-    }
+		} else if (String.class.equals(type)) {
+			String str = (String) o;
+			fileOut.put(key, str.getBytes());
+			
+		} else {// TODO: reflect and insure this is the output return type
+			byte[] byt = (byte[]) o;
+			fileOut.put(key, byt);
+		}
+		
 
-    //TODO: handle Content
+		// TODO: handle tostringable classes
+		//TODO: use reflection to record the classes that arn't
+	}
+	
 }
