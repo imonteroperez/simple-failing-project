@@ -45,12 +45,21 @@ public class IntentionalyFailingFireFoxTest extends IntegrationTest {
     @Test
     public void failsinBrowser() {
         driver.get(baseDomain);
-        impotantDubugInformation = "dg is 'fun'";
+        impotantDubugInformation = "google";
 
         HtmlUnitWebElement elem = (HtmlUnitWebElement) waiter.withMessage("regression for #3272").until(
                 presenceOfElementLocated(By.partialLinkText("Title Thingy")));
     }
 
+    
+    @Test
+    public void failsinyahoo() {
+        driver.get("http://www.yahoo.com/");
+        impotantDubugInformation = "yahoo!";
+
+        HtmlUnitWebElement elem = (HtmlUnitWebElement) waiter.withMessage("regression for #3272").until(
+                presenceOfElementLocated(By.partialLinkText("Title Thingy")));
+    }
 
     @Test
     public void succeeds() {
