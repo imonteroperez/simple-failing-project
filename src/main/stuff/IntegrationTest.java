@@ -52,9 +52,9 @@ public class IntegrationTest extends BaseTest {
 
 
     @CaptureFile(extention = "html")
-    public String domHtml() {
+    public String dom() {
     	
-    	String source= driver.getPageSource();
+//    	String source= driver.getPageSource();
 //    	if(StringUtils.isBlank(source)){
 //    		return null;
 //    	}

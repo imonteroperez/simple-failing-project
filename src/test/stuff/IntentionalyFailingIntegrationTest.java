@@ -29,8 +29,11 @@ public class IntentionalyFailingIntegrationTest extends IntegrationTest {
         // TODO Auto-generated constructor stub
     }
 
-    @CaptureFile String otherDubugInformation = "";
-    String impotantDubugInformation = "";
+    @CaptureFile 
+    public String otherDubugInformation = "";
+    
+    @CaptureFile 
+    public String impotantDubugInformation = "";
 
 
     @CaptureFile
